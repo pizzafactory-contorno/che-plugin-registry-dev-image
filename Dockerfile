@@ -12,7 +12,8 @@
 
 FROM docker.io/node:12.19.0-alpine3.12
 RUN apk add --no-cache py3-pip jq bash git wget skopeo && pip3 install yq jsonschema
-RUN npm install --global surge
+# Tools for publishing to surge.sh
+RUN npm install --global surge && apk add --no-cache tree
 
 USER 0
 # Set permissions on /etc/passwd and /home to allow arbitrary users to write
