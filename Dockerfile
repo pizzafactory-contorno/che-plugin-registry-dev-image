@@ -11,7 +11,7 @@
 #
 
 FROM docker.io/node:12.19.0-alpine3.12
-RUN apk add --no-cache py3-pip jq bash git wget skopeo && pip3 install yq jsonschema
+RUN apk add --no-cache py3-pip jq bash git wget skopeo curl && pip3 install yq jsonschema
 # Tools for publishing to surge.sh
 RUN npm install --global surge && apk add --no-cache tree
 
