@@ -18,12 +18,26 @@ RUN npm install --global surge && apk add --no-cache tree
 USER 0
 # Set permissions on /etc/passwd and /home to allow arbitrary users to write
 COPY --chown=0:0 entrypoint.sh /
-RUN mkdir -p /home/user && chgrp -R 0 /home && chmod -R g=u /etc/passwd /etc/group /home && chmod +x /entrypoint.sh
+RUN mkdir -p /projects && \
+    mkdir -p /home/user && \
+    chgrp -R 0 /home && \
+    chmod -R g=u /etc/passwd /etc/group /home && \
+    chmod +x /entrypoint.sh
 COPY bashrc /home/user/.bashrc
 
 # Install common terminal editors in container to aid development process
 COPY install-editor-tooling.sh /tmp
 RUN /tmp/install-editor-tooling.sh && rm -f /tmp/install-editor-tooling.sh
+
+RUN cd /tmp && \
+    mkdir che-plugin-registry-repo && \
+    cd che-plugin-registry-repo && \
+    git clone https://github.com/eclipse/che-plugin-registry && \
+    cd che-plugin-registry && \
+    mkdir output && \
+    BUILDER=docker SKIP_TEST=true SKIP_FORMAT=true SKIP_LINT=true NODE_BUILD_OPTIONS="-max-old-space-size=1024" ./build.sh --skip-oci-image && \
+    chmod -R a+rw /tmp/che-plugin-registry && \
+    cd && rm /tmp/che-plugin-registry-repo -rf;
 
 USER 10001
 ENV HOME=/home/user
