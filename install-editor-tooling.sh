@@ -10,7 +10,7 @@
 
 set -e
 
-TOOLING=(vim nano)
+TOOLING=(vim nano tig)
 
 if command -v dnf 2> /dev/null; then
   dnf install -y "${TOOLING[@]}"
