@@ -29,7 +29,7 @@ COPY bashrc /home/user/.bashrc
 COPY install-editor-tooling.sh /tmp
 RUN /tmp/install-editor-tooling.sh && rm -f /tmp/install-editor-tooling.sh
 
-RUN echo "Invalidating docker cache 2021-05-26" && \
+RUN echo "Invalidating docker cache 2021-08-04" && \
     cd /tmp && \
     mkdir che-plugin-registry-repo && \
     cd che-plugin-registry-repo && \
