@@ -29,17 +29,6 @@ COPY bashrc /home/user/.bashrc
 COPY install-editor-tooling.sh /tmp
 RUN /tmp/install-editor-tooling.sh && rm -f /tmp/install-editor-tooling.sh
 
-RUN echo "Invalidating docker cache 2021-08-04" && \
-    cd /tmp && \
-    mkdir che-plugin-registry-repo && \
-    cd che-plugin-registry-repo && \
-    git clone https://github.com/eclipse/che-plugin-registry && \
-    cd che-plugin-registry && \
-    mkdir output && \
-    BUILDER=docker SKIP_TEST=true SKIP_FORMAT=true SKIP_LINT=true NODE_BUILD_OPTIONS="-max-old-space-size=1024" ./build.sh --skip-oci-image && \
-    chmod -R a+rw /tmp/che-plugin-registry && \
-    cd && rm /tmp/che-plugin-registry-repo -rf;
-
 USER 10001
 ENV HOME=/home/user
 WORKDIR /projects
